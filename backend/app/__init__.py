@@ -13,7 +13,7 @@ logger = setup_logger(__name__)
 def create_app(config_name=None):
     """Application factory for Flask backend."""
     if config_name is None:
-        config_name = os.getenv('FLASK_ENV', 'development')
+        config_name = os.getenv('FLASK_ENV') or ('production' if os.getenv('RENDER') or os.getenv('PORT') else 'development')
 
     app = Flask(__name__)
     config_class = config_by_name.get(config_name, config_by_name['default'])
@@ -30,6 +30,13 @@ def create_app(config_name=None):
     db.init_app(app)
     cors.init_app(app, resources={r"/api/*": {"origins": app.config.get('CORS_ORIGINS', '*')}})
     socketio.init_app(app, cors_allowed_origins=app.config.get('CORS_ORIGINS', '*'))
+
+    # Ensure database schema is initialized safely on startup
+    with app.app_context():
+        try:
+            db.create_all()
+        except Exception as exc:
+            logger.warning(f"Database table initialization notice: {exc}")
 
     # Initialize CameraManager
     camera_manager.init_app(app)

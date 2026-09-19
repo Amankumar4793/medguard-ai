@@ -5,10 +5,14 @@ from app.extensions import socketio
 
 load_dotenv()
 
-app = create_app(os.getenv('FLASK_ENV', 'development'))
+flask_env = os.getenv('FLASK_ENV') or ('production' if os.getenv('RENDER') or os.getenv('PORT') else 'development')
+app = create_app(flask_env)
 
 if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     host = os.getenv('HOST', '0.0.0.0')
-    print(f"[*] AI Healthcare Security System running on http://127.0.0.1:{port}")
-    socketio.run(app, host=host, port=port, debug=app.config.get('DEBUG', False), allow_unsafe_werkzeug=True)
+    is_prod = (flask_env == 'production') or bool(os.getenv('RENDER'))
+    debug = False if is_prod else app.config.get('DEBUG', False)
+    use_reloader = False if is_prod else debug
+    print(f"[*] AI Healthcare Security System running on http://{host}:{port} [{flask_env}]")
+    socketio.run(app, host=host, port=port, debug=debug, use_reloader=use_reloader, allow_unsafe_werkzeug=True)

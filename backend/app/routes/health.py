@@ -9,7 +9,8 @@ health_bp = Blueprint('health', __name__)
 START_TIME = time.time()
 
 
-@health_bp.route('/health', methods=['GET'])
+@health_bp.route('/health', methods=['GET'], strict_slashes=False)
+@health_bp.route('/', methods=['GET'], strict_slashes=False)
 def health_check():
     """
     Health check endpoint providing comprehensive system status,
