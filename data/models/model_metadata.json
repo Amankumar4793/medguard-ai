@@ -1,0 +1,51 @@
+{
+  "model_type": "IsolationForest",
+  "algorithm": "Unsupervised Isolation Forest with StandardScaler",
+  "version": "1.0.0",
+  "trained_at": "2026-09-18T16:26:54.928995+00:00",
+  "feature_count": 19,
+  "feature_names": [
+    "persons_detected",
+    "unique_tracks",
+    "zone_occupancy",
+    "restricted_zone_entries",
+    "restricted_zone_exits",
+    "time_in_restricted_zone",
+    "loitering_events",
+    "after_hours_activity",
+    "crowd_level",
+    "repeated_entries",
+    "detection_confidence_mean",
+    "detection_confidence_min",
+    "detection_confidence_max",
+    "movement_speed",
+    "event_frequency",
+    "events_per_minute",
+    "activity_hour",
+    "day_of_week",
+    "camera_activity_level"
+  ],
+  "hyperparameters": {
+    "n_estimators": 100,
+    "contamination": 0.12,
+    "random_state": 42
+  },
+  "sample_count": 2200,
+  "evaluation_metrics": {
+    "samples_evaluated": 2200,
+    "precision": 0.9091,
+    "recall": 0.9091,
+    "f1_score": 0.9091,
+    "accuracy": 0.9782,
+    "confusion_matrix": {
+      "tp": 240,
+      "fp": 24,
+      "tn": 1912,
+      "fn": 24
+    }
+  },
+  "dataset_source": "C:\\Users\\email\\OneDrive\\Documents\\Project!\\data\\ml\\synthetic_security_events.csv",
+  "trained_samples": 2200,
+  "normal_samples": 1936,
+  "anomaly_samples": 264
+}
